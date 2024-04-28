@@ -11,7 +11,7 @@ import { MapContext } from "../map/mapContext";
 
 const stationLayer = new VectorLayer({
   source: new VectorSource({
-    url: "/stations.json",
+    url: "/kws2100_exam/stations.json",
     format: new GeoJSON(),
   }),
   style: stationStyle,
@@ -31,7 +31,7 @@ function stationStyle(f: FeatureLike) {
       fill: new Fill({
         color: "blue",
       }),
-      radius: 3,
+      radius: 4,
     }),
   });
 }
