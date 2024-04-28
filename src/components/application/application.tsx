@@ -63,7 +63,7 @@ export function Application() {
       value={{ map, vectorLayers, setVectorLayers, setBaseLayer }}
     >
       <header>
-        <h1>Trainapp</h1>
+        <h1>Train Application</h1>
       </header>
       <nav>
         <a href={"#"} onClick={handleFocusUser}>
