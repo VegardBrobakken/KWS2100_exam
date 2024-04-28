@@ -25,14 +25,39 @@ type StationFeature = { getProperties(): StationProperties } & Feature<Point>;
 
 function stationStyle(f: FeatureLike) {
   const feature = f as StationFeature;
+  const station = feature.getProperties();
   return new Style({
     image: new Circle({
       stroke: new Stroke({ color: "white", width: 1 }),
       fill: new Fill({
         color: "blue",
       }),
-      radius: 4,
+      radius: 6,
     }),
+  });
+}
+
+function activeStationStyle(f: FeatureLike, resolution: number) {
+  const feature = f as StationFeature;
+  const station = feature.getProperties();
+  return new Style({
+    image: new Circle({
+      stroke: new Stroke({ color: "white", width: 3 }),
+      fill: new Fill({
+        color: "orange",
+      }),
+      radius: 7,
+    }),
+    text:
+      resolution < 400
+        ? new Text({
+            text: station.navn,
+            offsetY: -15,
+            font: "bold 14px sans-serif",
+            fill: new Fill({ color: "black" }),
+            stroke: new Stroke({ color: "white", width: 2 }),
+          })
+        : undefined,
   });
 }
 
@@ -44,7 +69,7 @@ export function StationLayerCheckbox() {
 
   function handlePointerMove(e: MapBrowserEvent<MouseEvent>) {
     const resolution = map.getView().getResolution();
-    if (!resolution || resolution > 100) {
+    if (!resolution || resolution > 400) {
       return;
     }
     const features: FeatureLike[] = [];
@@ -58,6 +83,11 @@ export function StationLayerCheckbox() {
       setActiveFeature(undefined);
     }
   }
+
+  useEffect(() => {
+    activeFeature?.setStyle(activeStationStyle);
+    return () => activeFeature?.setStyle(undefined);
+  }, [activeFeature]);
 
   useLayer(stationLayer, checked);
 
@@ -77,6 +107,7 @@ export function StationLayerCheckbox() {
           onChange={(e) => setChecked(e.target.checked)}
         />
         Show stations
+        {activeFeature && " (" + activeFeature.getProperties().navn + ")"}
       </label>
     </div>
   );

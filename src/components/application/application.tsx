@@ -15,6 +15,8 @@ import { map, MapContext } from "../map/mapContext";
 import { View } from "ol";
 import { Layer } from "ol/layer";
 import { StationLayerCheckbox } from "../station/stationLayerCheckbox";
+import { LineLayerCheckbox } from "../line/lineLayerCheckbox";
+import { BaseLayerDropdown } from "../baseLayer/baseLayerMenu";
 
 export function Application() {
   function handleFocusUser(e: React.MouseEvent) {
@@ -70,6 +72,8 @@ export function Application() {
           Show my location
         </a>
         <StationLayerCheckbox />
+        <LineLayerCheckbox />
+        <BaseLayerDropdown />
       </nav>
       <main>
         <div ref={mapRef}></div>
